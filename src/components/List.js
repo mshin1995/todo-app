@@ -1,11 +1,16 @@
 import React from 'react';
+import ListTasks from './ListTasks'
 
 class List extends React.Component {
     constructor() {
         super()
         this.state={
             tasks:[],
-            currentTask:''
+            currentTask: {
+                text:'',
+                key: '',
+                checked: false
+            }
         }
         this.handleChange = this.handleChange.bind(this);
         this.addTask = this.addTask.bind(this);
@@ -15,7 +20,11 @@ class List extends React.Component {
 
     handleChange = (e) => {
         this.setState({
-            currentTask: e.target.value
+            currentTask: {
+                text: e.target.value,
+                key: Date.now(),
+                checked: false
+            }
         })
     }
 
@@ -25,10 +34,45 @@ class List extends React.Component {
         if (newTask !== '') {
             this.setState({
                 tasks: [...this.state.tasks, newTask],
-                currentTask:''
             })
         }
     }
+
+    deleteTask = (task) => {
+        let tasks = this.state.tasks.slice();
+        tasks.splice(task, 1);
+        this.setState({
+            tasks: tasks,
+        });
+    }
+
+    complete = (key) => {
+        let tasks = this.state.tasks.slice();
+        tasks.forEach((task) => {
+            if (task.key === key) {
+                task.checked = !task.checked;
+            }
+        })
+        this.setState({
+            tasks: tasks
+        })
+    }
+
+    changeStatus = key =>{
+        const tempItems = this.state.items.slice()
+    
+        tempItems.forEach((item) => {
+          if (item.key===key){
+            item.completed = !item.completed;
+          }
+    
+        })
+        this.setState({
+          items: tempItems,
+        })
+      } 
+
+        
 
     render() {
         return (
@@ -37,6 +81,7 @@ class List extends React.Component {
                     <input type='text' placeholder='Enter Task' onChange={this.handleChange} />
                     <button type='submit'>Add</button>
                 </form>
+                <ListTasks tasks={this.state.tasks} complete={this.complete} delete={this.deleteTask} />
             </div>
         )
     }

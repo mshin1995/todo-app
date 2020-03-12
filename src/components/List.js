@@ -16,7 +16,17 @@ class List extends React.Component {
         this.addTask = this.addTask.bind(this);
     }
 
-    
+    componentWillMount = () => {
+        this.fetchTasks()
+    }
+
+    fetchTasks = () => {
+        fetch('/http://localhost:3001/all')
+        .then(resp => resp.json())
+        .then(data => this.setState({
+            tasks: data
+        }))
+    }
 
     handleChange = (e) => {
         this.setState({
@@ -36,6 +46,19 @@ class List extends React.Component {
                 tasks: [...this.state.tasks, newTask],
             })
         }
+        console.log(JSON.stringify({
+            task: this.state.currentTask
+        }))
+        fetch('http://localhost:3001/data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                task: this.state.currentTask
+            })
+          })
+
     }
 
     deleteTask = (task) => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import ListTasks from './ListTasks'
+const url = new URL("http://localhost:3001")
 
 class List extends React.Component {
     constructor() {
@@ -21,11 +22,12 @@ class List extends React.Component {
     }
 
     fetchTasks = () => {
-        fetch('/http://localhost:3001/all')
+        fetch(url + 'all')
         .then(resp => resp.json())
         .then(data => this.setState({
             tasks: data
         }))
+        
     }
 
     handleChange = (e) => {

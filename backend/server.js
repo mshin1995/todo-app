@@ -29,8 +29,7 @@ app.get('/all', (req, res) => {
         if(err) {
             console.log(err);
         } else {
-            
-            console.log(response.data.values.map(([text, key, checked]) => ({text, key, checked})))
+            res.send(response.data.values.map(([text, key, checked]) => ({text, key, checked})))
         }
     });
 })

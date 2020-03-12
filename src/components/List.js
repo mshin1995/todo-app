@@ -69,6 +69,15 @@ class List extends React.Component {
         this.setState({
             tasks: tasks,
         });
+        fetch('http://localhost:3001/data' + `${task.key}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                task: this.state.currentTask
+            })
+          })
     }
 
     complete = (key) => {
@@ -101,7 +110,8 @@ class List extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className='list-container'>
+                <h3>To Do List</h3>
                 <form onSubmit={this.addTask}>
                     <input type='text' placeholder='Enter Task' onChange={this.handleChange} />
                     <button type='submit'>Add</button>

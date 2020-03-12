@@ -57,7 +57,7 @@ app.delete('/data/:key', (req, res) => {
     let row = req.params.key
     sheets.spreadsheets.values.clear({
         spreadsheetId,
-        range: `${row}:${row}`,
+        range: `Sheet1`,
     },  (err, response) => {
         if(err) {
             console.log(err);
